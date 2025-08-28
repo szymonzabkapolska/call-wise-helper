@@ -245,62 +245,8 @@ const CallCenterDashboard = () => {
             </Card>
           </div>
 
-          {/* Środkowa kolumna - Transkrypcja */}
+          {/* Środkowa kolumna - Chatbot */}
           <div className="col-span-6">
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Mic className="w-5 h-5" />
-                  <span>Transkrypcja rozmowy</span>
-                  {isRecording && (
-                    <div className="flex items-center space-x-1">
-                      <div className="w-2 h-2 bg-destructive rounded-full animate-pulse"></div>
-                      <span className="text-sm text-muted-foreground">Na żywo</span>
-                    </div>
-                  )}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="h-[calc(100%-80px)]">
-                <ScrollArea className="h-full">
-                  <div className="space-y-4">
-                    {transcript.map((line) => (
-                      <div key={line.id} className={`flex ${line.speaker === 'agent' ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-[80%] p-3 rounded-lg ${
-                          line.speaker === 'agent' 
-                            ? 'bg-primary text-primary-foreground' 
-                            : 'bg-secondary text-secondary-foreground'
-                        }`}>
-                          <div className="flex items-center space-x-2 mb-1">
-                            <span className="text-xs opacity-80">
-                              {line.speaker === 'agent' ? 'Agent' : 'Klient'}
-                            </span>
-                            <span className="text-xs opacity-60">{line.timestamp}</span>
-                          </div>
-                          <p className="text-sm">{line.text}</p>
-                          {line.keywords && line.keywords.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-2">
-                              {line.keywords.map((keyword) => (
-                                <Badge
-                                  key={keyword}
-                                  variant="secondary"
-                                  className="text-xs bg-accent text-accent-foreground"
-                                >
-                                  {keyword}
-                                </Badge>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Prawa kolumna - Chatbot */}
-          <div className="col-span-3">
             <Card className="h-full flex flex-col">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
@@ -310,15 +256,15 @@ const CallCenterDashboard = () => {
               </CardHeader>
               <CardContent className="flex-1 flex flex-col">
                 <ScrollArea className="flex-1 mb-4">
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {chatMessages.map((message) => (
                       <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-[85%] p-2 rounded-lg text-sm ${
+                        <div className={`max-w-[80%] p-3 rounded-lg ${
                           message.type === 'user' 
                             ? 'bg-primary text-primary-foreground' 
                             : 'bg-muted text-muted-foreground'
                         }`}>
-                          <p>{message.message}</p>
+                          <p className="text-sm">{message.message}</p>
                           <p className="text-xs opacity-60 mt-1">{message.timestamp}</p>
                         </div>
                       </div>
@@ -340,6 +286,60 @@ const CallCenterDashboard = () => {
                     <Send className="w-4 h-4" />
                   </Button>
                 </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Prawa kolumna - Transkrypcja */}
+          <div className="col-span-3">
+            <Card className="h-full">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Mic className="w-5 h-5" />
+                  <span>Transkrypcja</span>
+                  {isRecording && (
+                    <div className="flex items-center space-x-1">
+                      <div className="w-2 h-2 bg-destructive rounded-full animate-pulse"></div>
+                      <span className="text-sm text-muted-foreground">Na żywo</span>
+                    </div>
+                  )}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="h-[calc(100%-80px)]">
+                <ScrollArea className="h-full">
+                  <div className="space-y-3">
+                    {transcript.map((line) => (
+                      <div key={line.id} className={`flex ${line.speaker === 'agent' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`max-w-[90%] p-2 rounded-lg text-xs ${
+                          line.speaker === 'agent' 
+                            ? 'bg-primary text-primary-foreground' 
+                            : 'bg-secondary text-secondary-foreground'
+                        }`}>
+                          <div className="flex items-center space-x-1 mb-1">
+                            <span className="text-xs opacity-80">
+                              {line.speaker === 'agent' ? 'A' : 'K'}
+                            </span>
+                            <span className="text-xs opacity-60">{line.timestamp}</span>
+                          </div>
+                          <p className="text-xs leading-tight">{line.text}</p>
+                          {line.keywords && line.keywords.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {line.keywords.map((keyword) => (
+                                <Badge
+                                  key={keyword}
+                                  variant="secondary"
+                                  className="text-xs bg-accent text-accent-foreground px-1 py-0"
+                                >
+                                  {keyword}
+                                </Badge>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               </CardContent>
             </Card>
           </div>
